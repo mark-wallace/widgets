@@ -21,12 +21,34 @@ const Search = () => {
            });
            setResults(data.query.search);
        };
-       search();
+       
+       //on initial load we don't want to wait for a timeout
+       if (term && !results.length) {
+           search();
+       } else {
+            const timeoutId = setTimeout(() => {
+                if (term) {
+                    search();
+                }
+            }, 1000);
+
+            //what is this witch craft? This function gets returned on initial render and gets invoked on RE-render
+            return () => {
+                clearTimeout(timeoutId);
+            };
+       }
+
     }, [term])
 
     const renderedResults = results.map((result) => {
         return(
             <div key={result.pageid} className="item">
+                <div className="right floated content">
+                    <a 
+                        className="button ui"
+                        href={`https://en.wikipedia.org?curid=${result.pageid}`}
+                    >Go</a>
+                </div>
                 <div className="content">
                     <div className="header">
                         {result.title}
