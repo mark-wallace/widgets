@@ -4,7 +4,18 @@ import axios from 'axios';
 
 const Search = () => {
     const [term, setTerm] = useState('world of warcraft');
+    const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [results, setResults] = useState([]);
+
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            setDebouncedTerm(term);
+        }, 1000)
+
+        return () => {
+            clearTimeout(timerId);
+        }
+    } ,[term])
 
     useEffect(() => {
         //sync cannot be used with useEffect, so this helper neeeds to exist
@@ -16,29 +27,15 @@ const Search = () => {
                     list: "search",
                     format: "json",
                     origin: "*",
-                    srsearch: term,
+                    srsearch: debouncedTerm,
                }
            });
            setResults(data.query.search);
        };
-       
-       //on initial load we don't want to wait for a timeout
-       if (term && !results.length) {
-           search();
-       } else {
-            const timeoutId = setTimeout(() => {
-                if (term) {
-                    search();
-                }
-            }, 1000);
-
-            //what is this witch craft? This function gets returned on initial render and gets invoked on RE-render
-            return () => {
-                clearTimeout(timeoutId);
-            };
-       }
-
-    }, [term])
+        if (debouncedTerm) {
+            search();
+        }
+    }, [debouncedTerm])
 
     const renderedResults = results.map((result) => {
         return(
