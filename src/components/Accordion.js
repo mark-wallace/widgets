@@ -4,7 +4,6 @@ const Accordion = ({ items }) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const titleOnClick = (index) => {
-        console.log("Title index clicked " + index);
         setActiveIndex(index);
     }
 

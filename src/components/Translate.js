@@ -15,6 +15,10 @@ const languages = [
     label: "Hindi",
     value: "hi",
   },
+  {
+    label: "Japanese",
+    value: "ja"
+  }
 ];
 
 const Translate = () => {
