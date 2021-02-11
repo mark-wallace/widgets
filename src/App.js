@@ -5,6 +5,7 @@ import Accordion from "./components/Accordion";
 import Dropdown from "./components/Dropdown";
 import Search from "./components/Search";
 import Header from "./components/Header";
+import Timer from "./components/Timer";
 
 const items = [
   {
@@ -58,6 +59,9 @@ const App = () => {
       </Route>
       <Route path="/list">
         <Search />
+      </Route>
+      <Route path="/timer">
+        <Timer />
       </Route>
     </div>
   );
